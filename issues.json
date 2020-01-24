@@ -41,9 +41,9 @@
 
     ],
     "milestone": null,
-    "comments": 0,
+    "comments": 5,
     "created_at": "2020-01-22T09:23:41Z",
-    "updated_at": "2020-01-22T09:23:41Z",
+    "updated_at": "2020-01-22T12:09:24Z",
     "closed_at": null,
     "author_association": "MEMBER",
     "pull_request": {
@@ -152,7 +152,7 @@
         "description": null
       }
     ],
-    "state": "open",
+    "state": "closed",
     "locked": false,
     "assignee": null,
     "assignees": [
@@ -161,8 +161,8 @@
     "milestone": null,
     "comments": 0,
     "created_at": "2020-01-22T00:19:33Z",
-    "updated_at": "2020-01-22T01:07:20Z",
-    "closed_at": null,
+    "updated_at": "2020-01-24T02:30:57Z",
+    "closed_at": "2020-01-24T02:30:22Z",
     "author_association": "COLLABORATOR",
     "pull_request": {
       "url": "https://api.github.com/repos/httpwg/http-extensions/pulls/1036",
@@ -379,18 +379,64 @@
       "site_admin": false
     },
     "labels": [
-
+      {
+        "id": 329793151,
+        "node_id": "MDU6TGFiZWwzMjk3OTMxNTE=",
+        "url": "https://api.github.com/repos/httpwg/http-extensions/labels/6265bis",
+        "name": "6265bis",
+        "color": "fbca04",
+        "default": false,
+        "description": null
+      }
     ],
     "state": "open",
     "locked": false,
-    "assignee": null,
+    "assignee": {
+      "login": "mikewest",
+      "id": 1497,
+      "node_id": "MDQ6VXNlcjE0OTc=",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/1497?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mikewest",
+      "html_url": "https://github.com/mikewest",
+      "followers_url": "https://api.github.com/users/mikewest/followers",
+      "following_url": "https://api.github.com/users/mikewest/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mikewest/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mikewest/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mikewest/subscriptions",
+      "organizations_url": "https://api.github.com/users/mikewest/orgs",
+      "repos_url": "https://api.github.com/users/mikewest/repos",
+      "events_url": "https://api.github.com/users/mikewest/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mikewest/received_events",
+      "type": "User",
+      "site_admin": false
+    },
     "assignees": [
-
+      {
+        "login": "mikewest",
+        "id": 1497,
+        "node_id": "MDQ6VXNlcjE0OTc=",
+        "avatar_url": "https://avatars0.githubusercontent.com/u/1497?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/mikewest",
+        "html_url": "https://github.com/mikewest",
+        "followers_url": "https://api.github.com/users/mikewest/followers",
+        "following_url": "https://api.github.com/users/mikewest/following{/other_user}",
+        "gists_url": "https://api.github.com/users/mikewest/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/mikewest/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/mikewest/subscriptions",
+        "organizations_url": "https://api.github.com/users/mikewest/orgs",
+        "repos_url": "https://api.github.com/users/mikewest/repos",
+        "events_url": "https://api.github.com/users/mikewest/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/mikewest/received_events",
+        "type": "User",
+        "site_admin": false
+      }
     ],
     "milestone": null,
-    "comments": 0,
+    "comments": 3,
     "created_at": "2020-01-21T08:10:01Z",
-    "updated_at": "2020-01-21T08:10:01Z",
+    "updated_at": "2020-01-22T23:35:56Z",
     "closed_at": null,
     "author_association": "NONE",
     "body": "The original RFC 6265 as well as the current draft (-04) says that a user-agent **MUST** store last-access-time and then goes on to explain how to store a cookie... but never says how that access time would even be used.\r\n\r\nI find no argument for saying it MUST be used. We can implement fully compliant cookie user-agents without storing that information."
@@ -671,17 +717,17 @@
         "description": null
       }
     ],
-    "state": "open",
+    "state": "closed",
     "locked": false,
     "assignee": null,
     "assignees": [
 
     ],
     "milestone": null,
-    "comments": 5,
+    "comments": 8,
     "created_at": "2020-01-09T05:10:11Z",
-    "updated_at": "2020-01-22T08:25:11Z",
-    "closed_at": null,
+    "updated_at": "2020-01-24T02:30:46Z",
+    "closed_at": "2020-01-24T02:30:46Z",
     "author_association": "MEMBER",
     "body": "I'm getting a high failure rate on parsing `Preference-Applied` (but with a very low number of occurrences; it's not exactly a popular header).\r\n\r\nThe failure seems to occur because of keys like this: `odata.include-annotations=\"*\"`\r\n\r\nAllowing `.` in key would address this, but I'm not sure it's worth the change.\r\n\r\nAdditionally, key currently only allows lowercase alpha; this is mainly to avoid confusion between `foo` and `fOo`, etc. So far this seems to be pretty supportable in cache-control, accept-* and elsewhere, with the vast majority of headers seeming to choose the lowercase form. However, it does cause issues in a couple of cases:\r\n\r\n* In `Strict-Transport-Security`, the `includeSubDomains` parameter isn't compatible, leading to a high failure rate for that header\r\n* In cookies, this makes a number of things incompatible, but it's not clear that we can treat them as a direct mapping anyway."
   },
@@ -734,9 +780,9 @@
 
     ],
     "milestone": null,
-    "comments": 10,
+    "comments": 18,
     "created_at": "2020-01-09T04:43:55Z",
-    "updated_at": "2020-01-18T02:30:42Z",
+    "updated_at": "2020-01-23T17:33:30Z",
     "closed_at": null,
     "author_association": "CONTRIBUTOR",
     "body": "The document implies that [server priorities *override* client ones](https://httpwg.org/http-extensions/draft-ietf-httpbis-priority.html#merging).  I think that is a mistake.  The current approach seems strongly biased toward the role that a gateway provides.\r\n\r\nBoth values provide some information and an intermediary can use that information as it chooses.  Including advice that suggests the server information might be more complete and thus worthy of greater attention is probably the right way to address this question.  I can definitely see gateways throwing out client priorities in favour of server ones, but you don't have to *require* that."
@@ -920,9 +966,9 @@
 
     ],
     "milestone": null,
-    "comments": 5,
+    "comments": 6,
     "created_at": "2020-01-09T04:35:14Z",
-    "updated_at": "2020-01-16T04:17:45Z",
+    "updated_at": "2020-01-23T02:15:07Z",
     "closed_at": null,
     "author_association": "CONTRIBUTOR",
     "body": "The [explanation of the rationale behind assigning semantics to priority levels](https://httpwg.org/http-extensions/draft-ietf-httpbis-priority.html#why-do-urgencies-have-meanings) is not especially convincing.\r\n\r\nThe idea that we might have consistent labeling of priorities is something this shares with DSCP, but there the semantics are given more precise semantics than this document does for its levels.  If these semantics are to carry any weight, then it needs to be really clear what the client might expect a server to do with each different value.  It seems to me that if a server was to complete all requests at priority N before allocating anything other than opportunistic resources to N+1 then you get pretty much the semantics as described.  Priority 0 gets completed first, and 7 last.\r\n\r\nThe idea that different clients might share an understanding of different values is nice, but for that to work you need to trust that clients will label things similarly.  Right now, I don't see any incentive to do so.  If one implementation were to shift their priorities one higher or one lower, the effect probably wouldn't be any different.\r\n\r\nI do strongly agree with the idea that the number of buckets needs to be small.  8 is a reasonable number on balance.  But the associated trappings need far stronger motivation.\r\n\r\nKeep the last paragraph of that section though.  That concept deserves greater prominence in the document.  It does that by largely contradicting the argument for assigned semantics though."
@@ -1370,9 +1416,9 @@
 
     ],
     "milestone": null,
-    "comments": 28,
+    "comments": 29,
     "created_at": "2019-12-22T09:46:47Z",
-    "updated_at": "2020-01-22T08:41:12Z",
+    "updated_at": "2020-01-23T08:30:32Z",
     "closed_at": null,
     "author_association": "NONE",
     "body": "@mikewest's Fetch Metadata will add a bunch of headers that are supposedly structured headers, but given their simplicity can be compared using equality on servers. If servers did that it would likely prevent adding parameters in the future however or making other supposedly-compatible extensions.\r\n\r\nShould we accept this for headers clients transmit to servers or should we do something akin to TLS's GREASE?"
