@@ -320,7 +320,7 @@ Internet-Draft  Cookies: HTTP State Management Mechanism    January 2020
 
    A domain's "public suffix" is the portion of a domain that is
    controlled by a public registry, such as "com", "co.uk", and
-   "pvt.k12.wy.us" [PSL].  A domain's "registerable domain" is the
+   "pvt.k12.wy.us" [PSL].  A domain's "registrable domain" is the
    domain's public suffix plus the label to its left.  That is, for
    "https://www.site.example", the public suffix is "example", and the
    registrable domain is "site.example".  This concept is defined more
