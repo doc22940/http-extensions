@@ -157,7 +157,7 @@ Internet-Draft  Cookies: HTTP State Management Mechanism    January 2020
      10.1.  Normative References . . . . . . . . . . . . . . . . . .  44
      10.2.  Informative References . . . . . . . . . . . . . . . . .  46
      10.3.  URIs . . . . . . . . . . . . . . . . . . . . . . . . . .  48
-   Appendix A.  Changes  . . . . . . . . . . . . . . . . . . . . . .  48
+   Appendix A.  Changes  . . . . . . . . . . . . . . . . . . . . . .  49
      A.1.  draft-ietf-httpbis-rfc6265bis-00  . . . . . . . . . . . .  49
      A.2.  draft-ietf-httpbis-rfc6265bis-01  . . . . . . . . . . . .  49
      A.3.  draft-ietf-httpbis-rfc6265bis-02  . . . . . . . . . . . .  49
@@ -171,7 +171,8 @@ Internet-Draft  Cookies: HTTP State Management Mechanism    January 2020
 
 
      A.5.  draft-ietf-httpbis-rfc6265bis-04  . . . . . . . . . . . .  50
-   Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .  50
+     A.6.  draft-ietf-httpbis-rfc6265bis-05  . . . . . . . . . . . .  50
+   Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .  51
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  51
 
 1.  Introduction
@@ -217,7 +218,6 @@ Internet-Draft  Cookies: HTTP State Management Mechanism    January 2020
    The recommendations for cookie generation provided in Section 4
    represent a preferred subset of current server behavior, and even the
    more liberal cookie processing algorithm provided in Section 5 does
-   not recommend all of the syntactic and semantic variations in use
 
 
 
@@ -226,6 +226,7 @@ West & Wilander          Expires August 1, 2020                 [Page 4]
 Internet-Draft  Cookies: HTTP State Management Mechanism    January 2020
 
 
+   not recommend all of the syntactic and semantic variations in use
    today.  Where some existing software differs from the recommended
    protocol in significant ways, the document contains a note explaining
    the difference.
@@ -273,7 +274,6 @@ Internet-Draft  Cookies: HTTP State Management Mechanism    January 2020
 
    OWS SHOULD either not be produced or be produced as a single SP
    character.
-
 
 
 
@@ -2676,11 +2676,11 @@ Internet-Draft  Cookies: HTTP State Management Mechanism    January 2020
 
    [20] https://github.com/httpwg/http-extensions/issues/901
 
-Appendix A.  Changes
+   [21] https://github.com/httpwg/http-extensions/pull/1035
 
+   [22] https://github.com/httpwg/http-extensions/pull/1038
 
-
-
+   [23] https://github.com/httpwg/http-extensions/pull/1040
 
 
 
@@ -2689,6 +2689,8 @@ West & Wilander          Expires August 1, 2020                [Page 48]
 
 Internet-Draft  Cookies: HTTP State Management Mechanism    January 2020
 
+
+Appendix A.  Changes
 
 A.1.  draft-ietf-httpbis-rfc6265bis-00
 
@@ -2734,9 +2736,7 @@ A.3.  draft-ietf-httpbis-rfc6265bis-02
       *  Added the word "Cookies" to the document's name:
          https://github.com/httpwg/http-extensions/issues/204 [9]
 
-      *  Clarified that the "__Host-" prefix requires an explicit "Path"
-         attribute: https://github.com/httpwg/http-extensions/issues/222
-         [10]
+
 
 
 
@@ -2745,6 +2745,10 @@ West & Wilander          Expires August 1, 2020                [Page 49]
 
 Internet-Draft  Cookies: HTTP State Management Mechanism    January 2020
 
+
+      *  Clarified that the "__Host-" prefix requires an explicit "Path"
+         attribute: https://github.com/httpwg/http-extensions/issues/222
+         [10]
 
       *  Expanded the options for dealing with third-party cookies to
          include a brief mention of partitioning based on first-party:
@@ -2785,14 +2789,10 @@ A.5.  draft-ietf-httpbis-rfc6265bis-04
    o  Clarified behavior of multiple "SameSite" attributes in a cookie
       string: https://github.com/httpwg/http-extensions/issues/901 [20]
 
-Acknowledgements
+A.6.  draft-ietf-httpbis-rfc6265bis-05
 
-   RFC 6265 was written by Adam Barth.  This document is a minor update
-   of RFC 6265, adding small features, and aligning the specification
-   with the reality of today's deployments.  Here, we're standing upon
-   the shoulders of a giant since the majority of the text is still
-   Adam's.
-
+   o  Typos and editorial fixes: https://github.com/httpwg/http-
+      extensions/pull/1035 [21], https://github.com/httpwg/http-
 
 
 
@@ -2801,6 +2801,17 @@ West & Wilander          Expires August 1, 2020                [Page 50]
 
 Internet-Draft  Cookies: HTTP State Management Mechanism    January 2020
 
+
+      extensions/pull/1038 [22], https://github.com/httpwg/http-
+      extensions/pull/1040 [23].
+
+Acknowledgements
+
+   RFC 6265 was written by Adam Barth.  This document is a minor update
+   of RFC 6265, adding small features, and aligning the specification
+   with the reality of today's deployments.  Here, we're standing upon
+   the shoulders of a giant since the majority of the text is still
+   Adam's.
 
 Authors' Addresses
 
@@ -2815,17 +2826,6 @@ Authors' Addresses
    Apple, Inc
 
    Email: wilander@apple.com
-
-
-
-
-
-
-
-
-
-
-
 
 
 
