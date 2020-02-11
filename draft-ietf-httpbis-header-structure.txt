@@ -124,7 +124,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
        4.2.4.  Parsing a Number  . . . . . . . . . . . . . . . . . .  27
        4.2.5.  Parsing a String  . . . . . . . . . . . . . . . . . .  28
        4.2.6.  Parsing a Token . . . . . . . . . . . . . . . . . . .  29
-       4.2.7.  Parsing a Byte Sequence . . . . . . . . . . . . . . .  29
+       4.2.7.  Parsing a Byte Sequence . . . . . . . . . . . . . . .  30
        4.2.8.  Parsing a Boolean . . . . . . . . . . . . . . . . . .  30
    5.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  31
    6.  Security Considerations . . . . . . . . . . . . . . . . . . .  31
@@ -1012,35 +1012,38 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
 4.1.5.  Serializing a Decimal
 
-   Given a decimal_number as input_decimal, return an ASCII string
+   Given a decimal number as input_decimal, return an ASCII string
    suitable for use in a HTTP field value.
 
-   1.  Let output be an empty string.
+   1.   If input_decimal is not a decimal number, fail serialisation.
 
-   2.  If input_decimal is less than (but not equal to) 0, append "-" to
-       output.
+   2.   If input_decimal has more than three significant digits to the
+        right of the decimal point, round it to three decimal places,
+        rounding the final digit to the nearest value, or to the even
+        value if it is equidistant.
 
-   3.  Append input_decimal's integer component represented in base 10
-       (using only decimal digits) to output; if it is zero, append "0".
+   3.   If input_decimal has more than 12 significant digits to the left
+        of the decimal point after rounding, fail serialisation.
 
-   4.  If the number of characters appended in the previous step is
-       greater than 12, fail serialisation.
+   4.   Let output be an empty string.
 
-   5.  Append "." to output.
+   5.   If input_decimal is less than (but not equal to) 0, append "-"
+        to output.
 
-   6.  If input_decimal's fractional component is zero, append "0" to
-       output.
+   6.   Append input_decimal's integer component represented in base 10
+        (using only decimal digits) to output; if it is zero, append
+        "0".
 
-   7.  Else if input_decimal's fractional component has up to three
-       digits, append them represented in base 10 (using only decimal
-       digits) to output.
+   7.   Append "." to output.
 
-   8.  Otherwise, append the first three digits of input_decimal's
-       fractional component (represented in base 10, using only decimal
-       digits) to output, rounding the final digit to the nearest value,
-       or to the even value if it is equidistant.
+   8.   If input_decimal's fractional component is zero, append "0" to
+        output.
 
-   9.  Return output.
+   9.   Otherwise, append the significant digits of input_decimal's
+        fractional component represented in base 10 (using only decimal
+        digits) to output.
+
+   10.  Return output.
 
 4.1.6.  Serializing a String
 
@@ -1055,9 +1058,6 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
    3.  Append DQUOTE to output.
 
-   4.  For each character char in input_string:
-
-       1.  If char is "\" or DQUOTE:
 
 
 
@@ -1065,6 +1065,10 @@ Nottingham & Kamp        Expires August 14, 2020               [Page 19]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
+
+   4.  For each character char in input_string:
+
+       1.  If char is "\" or DQUOTE:
 
            1.  Append "\" to output.
 
@@ -1110,10 +1114,6 @@ Internet-Draft         Structured Headers for HTTP         February 2020
    The encoded data is required to be padded with "=", as per [RFC4648],
    Section 3.2.
 
-   Likewise, encoded data SHOULD have pad bits set to zero, as per
-   [RFC4648], Section 3.5, unless it is not possible to do so due to
-   implementation constraints.
-
 
 
 
@@ -1121,6 +1121,10 @@ Nottingham & Kamp        Expires August 14, 2020               [Page 20]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
+
+   Likewise, encoded data SHOULD have pad bits set to zero, as per
+   [RFC4648], Section 3.5, unless it is not possible to do so due to
+   implementation constraints.
 
 4.1.9.  Serializing a Boolean
 
@@ -1166,10 +1170,6 @@ Internet-Draft         Structured Headers for HTTP         February 2020
    5.  If field_type is "item", let output be the result of running
        Parsing an Item (Section 4.2.3) with input_string.
 
-   6.  Discard any leading SP characters from input_string.
-
-   7.  If input_string is not empty, fail parsing.
-
 
 
 
@@ -1177,6 +1177,10 @@ Nottingham & Kamp        Expires August 14, 2020               [Page 21]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
+
+   6.  Discard any leading SP characters from input_string.
+
+   7.  If input_string is not empty, fail parsing.
 
    8.  Otherwise, return output.
 
@@ -1222,10 +1226,6 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
    2.  While input_string is not empty:
 
-       1.  Append the result of running Parsing an Item or Inner List
-           (Section 4.2.1.1) with input_string to members.
-
-       2.  Discard any leading SP characters from input_string.
 
 
 
@@ -1233,6 +1233,11 @@ Nottingham & Kamp        Expires August 14, 2020               [Page 22]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
+
+       1.  Append the result of running Parsing an Item or Inner List
+           (Section 4.2.1.1) with input_string to members.
+
+       2.  Discard any leading SP characters from input_string.
 
        3.  If input_string is empty, return members.
 
@@ -1278,17 +1283,17 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
        2.  If the first character of input_string is ")":
 
-           1.  Consume the first character of input_string.
-
-           2.  Let parameters be the result of running Parsing
-               Parameters (Section 4.2.3.2) with input_string.
-
 
 
 Nottingham & Kamp        Expires August 14, 2020               [Page 23]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
+
+           1.  Consume the first character of input_string.
+
+           2.  Let parameters be the result of running Parsing
+               Parameters (Section 4.2.3.2) with input_string.
 
            3.  Return the tuple (inner_list, parameters).
 
@@ -1334,17 +1339,16 @@ Internet-Draft         Structured Headers for HTTP         February 2020
            dictionary already contains a name this_key (comparing
            character-for-character), overwrite its value.
 
-       5.  Discard any leading SP characters from input_string.
-
-       6.  If input_string is empty, return dictionary.
-
-
 
 
 Nottingham & Kamp        Expires August 14, 2020               [Page 24]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
+
+       5.  Discard any leading SP characters from input_string.
+
+       6.  If input_string is empty, return dictionary.
 
        7.  Consume the first character of input_string; if it is not
            ",", fail parsing.
@@ -1391,16 +1395,16 @@ Internet-Draft         Structured Headers for HTTP         February 2020
    4.  If the first character of input_string is "?", return the result
        of running Parsing a Boolean (Section 4.2.8) with input_string.
 
-   5.  If the first character of input_string is an ALPHA or "*", return
-       the result of running Parsing a Token (Section 4.2.6) with
-       input_string.
-
 
 
 Nottingham & Kamp        Expires August 14, 2020               [Page 25]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
+
+   5.  If the first character of input_string is an ALPHA or "*", return
+       the result of running Parsing a Token (Section 4.2.6) with
+       input_string.
 
    6.  Otherwise, the item type is unrecognized; fail parsing.
 
@@ -1445,10 +1449,6 @@ Internet-Draft         Structured Headers for HTTP         February 2020
    Given an ASCII string as input_string, return a key. input_string is
    modified to remove the parsed value.
 
-   1.  If the first character of input_string is not lcalpha, fail
-       parsing.
-
-   2.  Let output_string be an empty string.
 
 
 
@@ -1457,6 +1457,11 @@ Nottingham & Kamp        Expires August 14, 2020               [Page 26]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
+
+   1.  If the first character of input_string is not lcalpha, fail
+       parsing.
+
+   2.  Let output_string be an empty string.
 
    3.  While input_string is not empty:
 
@@ -1502,17 +1507,15 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
         3.  Else, if type is "integer" and char is ".":
 
-            1.  If input_number contains more than 12 characters, fail
-                parsing.
-
-
-
 
 
 Nottingham & Kamp        Expires August 14, 2020               [Page 27]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
+
+            1.  If input_number contains more than 12 characters, fail
+                parsing.
 
             2.  Otherwise, append char to input_number and set type to
                 "decimal".
@@ -1559,9 +1562,6 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
    4.  While input_string is not empty:
 
-       1.  Let char be the result of consuming the first character of
-           input_string.
-
 
 
 
@@ -1569,6 +1569,9 @@ Nottingham & Kamp        Expires August 14, 2020               [Page 28]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
+
+       1.  Let char be the result of consuming the first character of
+           input_string.
 
        2.  If char is a backslash ("\"):
 
@@ -1613,10 +1616,7 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
    4.  Return output_string.
 
-4.2.7.  Parsing a Byte Sequence
 
-   Given an ASCII string as input_string, return a byte sequence.
-   input_string is modified to remove the parsed value.
 
 
 
@@ -1625,6 +1625,11 @@ Nottingham & Kamp        Expires August 14, 2020               [Page 29]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
+
+4.2.7.  Parsing a Byte Sequence
+
+   Given an ASCII string as input_string, return a byte sequence.
+   input_string is modified to remove the parsed value.
 
    1.  If the first character of input_string is not ":", fail parsing.
 
@@ -1669,11 +1674,6 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
    1.  If the first character of input_string is not "?", fail parsing.
 
-   2.  Discard the first character of input_string.
-
-   3.  If the first character of input_string matches "1", discard the
-       first character, and return true.
-
 
 
 
@@ -1681,6 +1681,11 @@ Nottingham & Kamp        Expires August 14, 2020               [Page 30]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
+
+   2.  Discard the first character of input_string.
+
+   3.  If the first character of input_string matches "1", discard the
+       first character, and return true.
 
    4.  If the first character of input_string matches "0", discard the
        first character, and return false.
@@ -1726,17 +1731,17 @@ Internet-Draft         Structured Headers for HTTP         February 2020
               DOI 10.17487/RFC5234, January 2008,
               <https://www.rfc-editor.org/info/rfc5234>.
 
-   [RFC7230]  Fielding, R., Ed. and J. Reschke, Ed., "Hypertext Transfer
-              Protocol (HTTP/1.1): Message Syntax and Routing",
-              RFC 7230, DOI 10.17487/RFC7230, June 2014,
-              <https://www.rfc-editor.org/info/rfc7230>.
-
 
 
 Nottingham & Kamp        Expires August 14, 2020               [Page 31]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
+
+   [RFC7230]  Fielding, R., Ed. and J. Reschke, Ed., "Hypertext Transfer
+              Protocol (HTTP/1.1): Message Syntax and Routing",
+              RFC 7230, DOI 10.17487/RFC7230, June 2014,
+              <https://www.rfc-editor.org/info/rfc7230>.
 
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
@@ -1782,17 +1787,16 @@ Internet-Draft         Structured Headers for HTTP         February 2020
 
    [2] https://httpwg.github.io/
 
-   [3] https://github.com/httpwg/http-extensions/labels/header-structure
-
-   [4] https://github.com/httpwg/structured-header-tests
-
-
 
 
 Nottingham & Kamp        Expires August 14, 2020               [Page 32]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
+
+   [3] https://github.com/httpwg/http-extensions/labels/header-structure
+
+   [4] https://github.com/httpwg/structured-header-tests
 
    [5] https://github.com/httpwg/wiki/wiki/Structured-Headers
 
@@ -1839,16 +1843,15 @@ B.1.  Why not JSON?
    interoperability and simplify implementation, these concerns led to a
    format that requires a dedicated parser and serializer.
 
-   Additionally, there were widely shared feelings that JSON doesn't
-   "look right" in HTTP fields.
-
-
 
 
 Nottingham & Kamp        Expires August 14, 2020               [Page 33]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
+
+   Additionally, there were widely shared feelings that JSON doesn't
+   "look right" in HTTP fields.
 
 B.2.  Structured Headers don't "fit" my data.
 
@@ -1894,9 +1897,6 @@ Appendix C.  Implementation Notes
    of these data types, but it should still be exposed so that
    applications which need to use it will have it available.
 
-   Likewise, implementations should note that it's important to preserve
-   the distinction between tokens and strings.  While most programming
-   languages have native types that map to the other types well, it may
 
 
 
@@ -1906,6 +1906,9 @@ Nottingham & Kamp        Expires August 14, 2020               [Page 34]
 Internet-Draft         Structured Headers for HTTP         February 2020
 
 
+   Likewise, implementations should note that it's important to preserve
+   the distinction between tokens and strings.  While most programming
+   languages have native types that map to the other types well, it may
    be necessary to create a wrapper "token" object or use a parameter on
    functions to assure that these types remain separate.
 
@@ -1951,9 +1954,6 @@ D.2.  Since draft-ietf-httpbis-header-structure-14
 
    o  Check first character of key in serialisation (#1037).
 
-   o  Talk about greasing headers (#1015).
-
-
 
 
 
@@ -1961,6 +1961,8 @@ Nottingham & Kamp        Expires August 14, 2020               [Page 35]
 
 Internet-Draft         Structured Headers for HTTP         February 2020
 
+
+   o  Talk about greasing headers (#1015).
 
 D.3.  Since draft-ietf-httpbis-header-structure-13
 
@@ -2008,8 +2010,6 @@ D.6.  Since draft-ietf-httpbis-header-structure-10
    o  Allow empty dictionaries and lists (#781).
 
    o  Change parameterized lists to have primary items (#797).
-
-
 
 
 
