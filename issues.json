@@ -86,19 +86,27 @@
       "site_admin": false
     },
     "labels": [
-
+      {
+        "id": 499581321,
+        "node_id": "MDU6TGFiZWw0OTk1ODEzMjE=",
+        "url": "https://api.github.com/repos/httpwg/http-extensions/labels/header-structure",
+        "name": "header-structure",
+        "color": "fbca04",
+        "default": false,
+        "description": null
+      }
     ],
-    "state": "open",
+    "state": "closed",
     "locked": false,
     "assignee": null,
     "assignees": [
 
     ],
     "milestone": null,
-    "comments": 0,
+    "comments": 1,
     "created_at": "2020-02-11T01:47:02Z",
-    "updated_at": "2020-02-11T01:47:02Z",
-    "closed_at": null,
+    "updated_at": "2020-02-11T14:15:10Z",
+    "closed_at": "2020-02-11T14:15:10Z",
     "author_association": "NONE",
     "body": "https://tools.ietf.org/html/draft-ietf-httpbis-header-structure-15\r\n\r\n**Nits**\r\n+ \"individual individual\"  (4.2.)\r\n\r\n**Clarification**\r\n+ re: \"lists can have their members split across multiple instances inside a block of fields\", it will be useful to add a reference on the strict order of HTTP headers (of the same key)\r\n+ max # of items for innerlist: why not 1024 too? It seems a bit arbitrary to go with a smaller number\r\n+ 3.3.5  could you mention the max length of the encoded header value, in addition?\r\n \r\n**Suggestions**\r\n+ can utf-8 be the only encoding option?\r\n+ can you add an appendix on any existing headers that already comply with this spec, or examples of some complicated headers that could have benefited from structured headers? This might encourage the implementations of \"structured headers\"\r\n+ it will be useful to mention how the authors expect this spec to be extended in future (or not), e.g. new item types, nested inner-lists\r\n\r\n---\r\n\r\nGreat work!  Look forward to implementing this soon. \r\n"
   },
@@ -190,7 +198,15 @@
       "site_admin": false
     },
     "labels": [
-
+      {
+        "id": 499581321,
+        "node_id": "MDU6TGFiZWw0OTk1ODEzMjE=",
+        "url": "https://api.github.com/repos/httpwg/http-extensions/labels/header-structure",
+        "name": "header-structure",
+        "color": "fbca04",
+        "default": false,
+        "description": null
+      }
     ],
     "state": "open",
     "locked": false,
@@ -199,9 +215,9 @@
 
     ],
     "milestone": null,
-    "comments": 2,
+    "comments": 3,
     "created_at": "2020-02-07T20:36:59Z",
-    "updated_at": "2020-02-10T20:56:46Z",
+    "updated_at": "2020-02-11T14:17:13Z",
     "closed_at": null,
     "author_association": "CONTRIBUTOR",
     "body": "With the issue of rounding coming up again in #1044, @phluid61 brought up that there's a bigger question around all of the serialization algorithms -- is their input specifically defined in terms of the structured data types? (With all of the range restrictions on those types?)\r\n\r\nThe example at hand is Decimals -- since the \"Serialize a Decimal\" algorithm states that its input is a decimal, should rounding even be a possible concern? According to 3.3.2, decimals can only have three fractional digits. Unless that algorithm actually accepts arbitrary real numbers, the issue of rounding, or of the integer component being too large, should never come up.\r\n\r\nSimilarly, after saying \"Given a byte sequence as input_bytes, ...\", the \"Serializing a Byte Sequence\" algorithm includes \"If input_bytes is not a sequence of bytes, ...\", which seems like an impossible situation.\r\n\r\nStrings, tokens, and keys all do the same, guarding against situations which can't happen if the input is the correct structured data type (as opposed to a generic string in the implementation language.)\r\n\r\nI don't know if the spec just needs to be more precise about when it is talking about Structured Data Strings, Tokens, Decimals, etc., or if the serialization algorithms need to be defined as taking generic strings, numbers, and arrays as input, or maybe we need both, with a section on converting strings to Strings or Tokens, numbers to Decimals, etc., which can happen before or during serialization.\r\n\r\n(Or maybe I'm being too strict here, and the threshold for spec text should be 'understandable by a reasonable person'? :) )"
@@ -348,7 +364,15 @@
       "site_admin": false
     },
     "labels": [
-
+      {
+        "id": 499581321,
+        "node_id": "MDU6TGFiZWw0OTk1ODEzMjE=",
+        "url": "https://api.github.com/repos/httpwg/http-extensions/labels/header-structure",
+        "name": "header-structure",
+        "color": "fbca04",
+        "default": false,
+        "description": null
+      }
     ],
     "state": "open",
     "locked": false,
@@ -359,7 +383,7 @@
     "milestone": null,
     "comments": 0,
     "created_at": "2020-02-06T17:53:24Z",
-    "updated_at": "2020-02-10T20:48:05Z",
+    "updated_at": "2020-02-11T14:29:59Z",
     "closed_at": null,
     "author_association": "CONTRIBUTOR",
     "pull_request": {
@@ -412,7 +436,7 @@
         "description": null
       }
     ],
-    "state": "open",
+    "state": "closed",
     "locked": false,
     "assignee": null,
     "assignees": [
@@ -421,8 +445,8 @@
     "milestone": null,
     "comments": 0,
     "created_at": "2020-02-06T16:55:55Z",
-    "updated_at": "2020-02-07T15:02:52Z",
-    "closed_at": null,
+    "updated_at": "2020-02-11T14:18:54Z",
+    "closed_at": "2020-02-11T14:18:54Z",
     "author_association": "CONTRIBUTOR",
     "body": "The prose in [Strings](https://tools.ietf.org/html/draft-ietf-httpbis-header-structure-15#section-3.3.3) says\r\n\r\n\"Parsers MUST support strings with at least 1024 characters.\"\r\n\r\nUnlike the similar text for byte sequences, which specifies \"after decoding\", this could be ambiguous: Is a string represented in a header as 2000 `\\` characters within the limit?\r\n\r\n(Pretty sure the answer is yes, it's decoded characters, but should be explicit)"
   },
@@ -786,7 +810,7 @@
     "labels": [
 
     ],
-    "state": "open",
+    "state": "closed",
     "locked": false,
     "assignee": null,
     "assignees": [
@@ -795,8 +819,8 @@
     "milestone": null,
     "comments": 0,
     "created_at": "2020-01-30T02:04:43Z",
-    "updated_at": "2020-02-07T20:16:59Z",
-    "closed_at": null,
+    "updated_at": "2020-02-11T14:22:31Z",
+    "closed_at": "2020-02-11T14:22:31Z",
     "author_association": "COLLABORATOR",
     "pull_request": {
       "url": "https://api.github.com/repos/httpwg/http-extensions/pulls/1044",
@@ -848,7 +872,7 @@
         "description": null
       }
     ],
-    "state": "open",
+    "state": "closed",
     "locked": false,
     "assignee": null,
     "assignees": [
@@ -857,8 +881,8 @@
     "milestone": null,
     "comments": 2,
     "created_at": "2020-01-29T22:21:45Z",
-    "updated_at": "2020-02-06T16:07:08Z",
-    "closed_at": null,
+    "updated_at": "2020-02-11T14:22:31Z",
+    "closed_at": "2020-02-11T14:22:31Z",
     "author_association": "MEMBER",
     "body": "... still isn't right, as Kari noticed. E.g., a value of `1.9998` won't get rounded to `2.0`."
   },
